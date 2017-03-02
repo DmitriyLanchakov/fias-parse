@@ -1,0 +1,32 @@
+{
+  "name": "fias-parse",
+  "version": "0.0.1",
+  "description": "downloaded [FIAS](http://fias.nalog.ru) files parse and save",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ooby/fias-parse.git"
+  },
+  "keywords": [
+    "fias",
+    "parse",
+    "mongodb"
+  ],
+  "author": "Afanasy Argunov",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/ooby/fias-parse/issues"
+  },
+  "homepage": "https://github.com/ooby/fias-parse#readme",
+  "dependencies": {
+    "async": "^2.1.5",
+    "node-dbf": "^0.2.1",
+    "mongoose": "^4.8.5",
+    "nconf": "^0.8.4",
+    "underscore": "^1.8.3"
+  }
+}
