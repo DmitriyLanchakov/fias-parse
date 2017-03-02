@@ -2,3 +2,4 @@ node_modules
 fias
 npm-debug.log
 config/config.json
+out
