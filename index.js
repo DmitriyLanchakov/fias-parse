@@ -4,8 +4,6 @@ var path = require('path');
 var ps = require('process');
 var async = require('async');
 
-var cluster = require('cluster');
-
 var fias_path = process.env.FIAS_PATH || __dirname + '/fias';
 var out_path = process.env.OUT_PATH;
 
@@ -31,11 +29,6 @@ async.waterfall([
         rs.on('data', function (chunk) {
           data += chunk;
           count++;
-          if (cluster.isMaster) {
-            for (var i = 0; i < 2; ++i) {
-              cluster.fork();
-            }
-          } else {
             parser.parseString(data, function (e, result) {
               if (e) { return; }
               console.log('Обработано записей ', count);
@@ -55,7 +48,6 @@ async.waterfall([
                 });
               }
             });
-          }
         });
 
         rs.on('end', function () {
