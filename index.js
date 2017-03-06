@@ -9,10 +9,6 @@ var out_path = process.env.OUT_PATH;
 
 async.waterfall([
   function (cb) {
-    require('./lib/mongoose').connect(cb);
-  },
-  function (r, cb) {
-    console.log(r);
     console.log('Попытка прочитать файлы ФИАС', fias_path);
     fs.readdir(fias_path, cb);
   },
@@ -29,25 +25,25 @@ async.waterfall([
         rs.on('data', function (chunk) {
           data += chunk;
           count++;
-            parser.parseString(data, function (e, result) {
-              if (e) { return; }
-              console.log('Обработано записей ', count);
-              if (result) {
-                var ws;
-                fs.stat(file_to_parse, function (e, stats) {
-                  if (e) {
-                    if (e.code === 'ENOENT') {
-                      ws = fs.createWriteStream(file + '.json', { flags: 'w' });
-                      ws.write(JSON.stringify(result));
-                      ws.end();
-                    }
+          parser.parseString(data, function (e, result) {
+            if (e) { return; }
+            console.log('Обработано записей ', count);
+            if (result) {
+              var ws;
+              fs.stat(file_to_parse, function (e, stats) {
+                if (e) {
+                  if (e.code === 'ENOENT') {
+                    ws = fs.createWriteStream(file + '.json', { flags: 'w' });
+                    ws.write(JSON.stringify(result));
+                    ws.end();
                   }
-                  ws = fs.createWriteStream(file + '.json', { flags: 'a' });
-                  ws.write(JSON.stringify(result));
-                  ws.end();
-                });
-              }
-            });
+                }
+                ws = fs.createWriteStream(file + '.json', { flags: 'a' });
+                ws.write(JSON.stringify(result));
+                ws.end();
+              });
+            }
+          });
         });
 
         rs.on('end', function () {
